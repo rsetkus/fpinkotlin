@@ -42,4 +42,9 @@ fun <A,B,C,D> curried() =
 
 fun <A, B, C> curry(f: (A, B) -> C): (A) -> (B) -> C = { a -> { b ->  f(a, b) } }
 
-fun <T, U, V> swapArgs(f: (T) -> (U) -> V): (U) -> (T) -> (V) = TODO("swapArgs")
+fun <T, U, V> swapArgs(f: (T) -> (U) -> V): (U) -> (T) -> (V) =
+        { u: U ->
+            { t: T ->
+                f(t)(u)
+            }
+        }
