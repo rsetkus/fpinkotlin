@@ -12,8 +12,17 @@ fun <T> List<T>.tail(): List<T> =
         else
             this.subList(1, this.size)
 
-fun <T, U> foldLeft(list: List<T>, z: U, f: (U, T) -> U): U = TODO("foldLeft")
+fun <T, U> foldLeft(list: List<T>, z: U, f: (U, T) -> U): U  {
+    tailrec fun foldLeft_(list: List<T>, acc: U): U {
+        return when {
+            list.isEmpty() -> acc
+            else -> foldLeft_(list.tail(), f(acc, list.head()))
+        }
+    }
 
-fun sum(list: List<Int>): Int = TODO("sum")
+    return foldLeft_(list, z)
+}
 
-fun string(list: List<Char>): String = TODO("string")
+fun sum(list: List<Int>): Int = foldLeft(list, 0, Int::plus)
+
+fun string(list: List<Char>): String = foldLeft(list, "", String::plus)
